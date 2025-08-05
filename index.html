@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GP du Monde - Gestion de Cargaisons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-primary">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">GP du Monde</h1>
+                        <p class="text-sm text-gray-600">Gestion de Cargaisons Internationales</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-600">Système de Transport</div>
+                    <div class="text-lg font-semibold text-primary">Maritime • Aérien • Routier</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Panneau de création de cargaison -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Nouvelle Cargaison
+                    </h2>
+                    
+                    <form id="cargoForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de cargaison</label>
+                            <select id="cargoType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                <option value="">Sélectionner un type</option>
+                                <option value="maritime">Maritime</option>
+                                <option value="aerienne">Aérienne</option>
+                                <option value="routiere">Routière</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Distance (km)</label>
+                            <input type="number" id="distance" placeholder="Distance en kilomètres" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-md hover:shadow-lg">
+                            Créer la cargaison
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Panneau d'ajout de produit -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mt-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        Ajouter un Produit
+                    </h2>
+                    
+                    <form id="productForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de produit</label>
+                            <select id="productType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all">
+                                <option value="">Sélectionner un type</option>
+                                <option value="alimentaire"> Alimentaire</option>
+                                <option value="chimique"> Chimique</option>
+                                <option value="fragile"> Matériel Fragile</option>
+                                <option value="incassable"> Matériel Incassable</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Libellé</label>
+                            <input type="text" id="productLabel" placeholder="Nom du produit" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Poids (kg)</label>
+                            <input type="number" id="productWeight" placeholder="Poids en kilogrammes" step="0.1"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all">
+                        </div>
+                        
+                        <div id="toxicityDiv" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Degré de toxicité (1-5)</label>
+                            <input type="number" id="toxicity" min="1" max="5" placeholder="1 à 5" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all">
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-secondary text-white py-3 px-4 rounded-lg hover:bg-yellow-600 transition-all font-medium shadow-md hover:shadow-lg">
+                            Ajouter le produit
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Panneau principal -->
+            <div class="lg:col-span-2">
+                <!-- Cargaisons actives -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-between">
+                        <span class="flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            Cargaisons Actives
+                        </span>
+                        <span id="cargoCount" class="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">0</span>
+                    </h2>
+                    
+                    <div id="cargoList" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                            </svg>
+                            <p class="text-lg font-medium">Aucune cargaison créée</p>
+                            <p class="text-sm">Créez votre première cargaison pour commencer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages et notifications -->
+                <div id="messages" class="space-y-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Classes TypeScript converties en JavaScript
+        class Produit {
+            constructor(libelle, poids) {
+                this.libelle = libelle;
+                this.poids = poids;
+            }
+            
+            info() {
+                return `${this.libelle} - ${this.poids}kg`;
+            }
+        }
+
+        class ProduitAlimentaire extends Produit {
+            constructor(libelle, poids) {
+                super(libelle, poids);
+                this.type = 'alimentaire';
+            }
+            
+            info() {
+                return ` ${super.info()} (Alimentaire)`;
+            }
+        }
+
+        class ProduitChimique extends Produit {
+            constructor(libelle, poids, toxicite) {
+                super(libelle, poids);
+                this.toxicite = toxicite;
+                this.type = 'chimique';
+            }
+            
+            info() {
+                return ` ${super.info()} (Chimique - Toxicité: ${this.toxicite}/5)`;
+            }
+        }
+
+        class ProduitMateriel extends Produit {
+            constructor(libelle, poids) {
+                super(libelle, poids);
+            }
+        }
+
+        class ProduitFragile extends ProduitMateriel {
+            constructor(libelle, poids) {
+                super(libelle, poids);
+                this.type = 'fragile';
+            }
+            
+            info() {
+                return ` ${super.info()} (Matériel Fragile)`;
+            }
+        }
+
+        class ProduitIncassable extends ProduitMateriel {
+            constructor(libelle, poids) {
+                super(libelle, poids);
+                this.type = 'incassable';
+            }
+            
+            info() {
+                return ` ${super.info()} (Matériel Incassable)`;
+            }
+        }
+
+        class Cargaison {
+            constructor(distance) {
+                this.distance = distance;
+                this.produits = [];
+                this.maxProduits = 10;
+            }
+            
+            ajouterProduit(produit) {
+                if (this.produits.length >= this.maxProduits) {
+                    return { success: false, message: "Cargaison pleine! Maximum 10 produits." };
+                }
+                
+                this.produits.push(produit);
+                return { success: true, message: `Produit ajouté: ${produit.info()}` };
+            }
+            
+            nbProduits() {
+                return this.produits.length;
+            }
+            
+            calculerFrais(produit) {
+                return 0; // Implémenté dans les sous-classes
+            }
+            
+            sommeTotale() {
+                return this.produits.reduce((total, produit) => {
+                    return total + this.calculerFrais(produit);
+                }, 0);
+            }
+        }
+
+        class CargaisonMaritime extends Cargaison {
+            constructor(distance) {
+                super(distance);
+                this.type = 'Maritime';
+                this.icon = '';
+            }
+            
+            ajouterProduit(produit) {
+                if (produit.type === 'fragile') {
+                    return { success: false, message: "Les produits fragiles ne peuvent pas être transportés par voie maritime!" };
+                }
+                return super.ajouterProduit(produit);
+            }
+            
+            calculerFrais(produit) {
+                if (produit.type === 'chimique') return produit.poids * this.distance * 100;
+                if (produit.type === 'alimentaire') return produit.poids * this.distance * 90;
+                return produit.poids * this.distance * 50; // matériel incassable
+            }
+        }
+
+        class CargaisonAerienne extends Cargaison {
+            constructor(distance) {
+                super(distance);
+                this.type = 'Aérienne';
+                this.icon = '';
+            }
+            
+            calculerFrais(produit) {
+                if (produit.type === 'chimique') return produit.poids * this.distance * 300 + 5000;
+                if (produit.type === 'alimentaire') return produit.poids * this.distance * 200;
+                return produit.poids * this.distance * 150; // matériel
+            }
+        }
+
+        class CargaisonRoutiere extends Cargaison {
+            constructor(distance) {
+                super(distance);
+                this.type = 'Routière';
+                this.icon = '';
+            }
+            
+            calculerFrais(produit) {
+                if (produit.type === 'chimique') return produit.poids * this.distance * 80;
+                if (produit.type === 'alimentaire') return produit.poids * this.distance * 70;
+                return produit.poids * this.distance * 40; // matériel
+            }
+        }
+
+        // Variables globales
+        let cargaisons = [];
+        let cargaisonActive = null;
+
+        // Gestionnaires d'événements
+        document.getElementById('productType').addEventListener('change', function() {
+            const toxicityDiv = document.getElementById('toxicityDiv');
+            if (this.value === 'chimique') {
+                toxicityDiv.classList.remove('hidden');
+            } else {
+                toxicityDiv.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('cargoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('cargoType').value;
+            const distance = parseFloat(document.getElementById('distance').value);
+            
+            if (!type || !distance) {
+                showMessage('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            let cargaison;
+            switch(type) {
+                case 'maritime':
+                    cargaison = new CargaisonMaritime(distance);
+                    break;
+                case 'aerienne':
+                    cargaison = new CargaisonAerienne(distance);
+                    break;
+                case 'routiere':
+                    cargaison = new CargaisonRoutiere(distance);
+                    break;
+            }
+            
+            cargaisons.push(cargaison);
+            cargaisonActive = cargaison;
+            
+            updateCargoDisplay();
+            showMessage(`Cargaison ${cargaison.type} créée avec succès!`, 'success');
+            
+            this.reset();
+        });
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!cargaisonActive) {
+                showMessage('Veuillez d\'abord créer une cargaison', 'error');
+                return;
+            }
+            
+            const type = document.getElementById('productType').value;
+            const libelle = document.getElementById('productLabel').value;
+            const poids = parseFloat(document.getElementById('productWeight').value);
+            const toxicite = parseInt(document.getElementById('toxicity').value);
+            
+            if (!type || !libelle || !poids) {
+                showMessage('Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+            
+            let produit;
+            switch(type) {
+                case 'alimentaire':
+                    produit = new ProduitAlimentaire(libelle, poids);
+                    break;
+                case 'chimique':
+                    if (!toxicite || toxicite < 1 || toxicite > 5) {
+                        showMessage('Le degré de toxicité doit être entre 1 et 5', 'error');
+                        return;
+                    }
+                    produit = new ProduitChimique(libelle, poids, toxicite);
+                    break;
+                case 'fragile':
+                    produit = new ProduitFragile(libelle, poids);
+                    break;
+                case 'incassable':
+                    produit = new ProduitIncassable(libelle, poids);
+                    break;
+            }
+            
+            const result = cargaisonActive.ajouterProduit(produit);
+            
+            if (result.success) {
+                showMessage(result.message, 'success');
+                showMessage(`Montant de la cargaison: ${cargaisonActive.sommeTotale().toFixed(2)} F CFA`, 'info');
+                updateCargoDisplay();
+            } else {
+                showMessage(result.message, 'error');
+            }
+            
+            this.reset();
+            document.getElementById('toxicityDiv').classList.add('hidden');
+        });
+
+        function updateCargoDisplay() {
+            const cargoList = document.getElementById('cargoList');
+            const cargoCount = document.getElementById('cargoCount');
+            
+            cargoCount.textContent = cargaisons.length;
+            
+            if (cargaisons.length === 0) {
+                cargoList.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                        </svg>
+                        <p class="text-lg font-medium">Aucune cargaison créée</p>
+                        <p class="text-sm">Créez votre première cargaison pour commencer</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cargoList.innerHTML = cargaisons.map((cargaison, index) => `
+                <div class="border border-gray-200 rounded-lg p-4 ${cargaison === cargaisonActive ? 'border-primary bg-blue-50' : ''} hover:shadow-md transition-all">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">${cargaison.icon}</span>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Cargaison ${cargaison.type}</h3>
+                                <p class="text-sm text-gray-600">Distance: ${cargaison.distance} km</p>
+                            </div>
+                        </div>
+                        <button onclick="setCargaisonActive(${index})" 
+                                class="px-3 py-1 text-xs rounded-full ${cargaison === cargaisonActive ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'} hover:bg-primary hover:text-white transition-all">
+                            ${cargaison === cargaisonActive ? 'Active' : 'Sélectionner'}
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-3">
+                        <div class="bg-white rounded-lg p-3 border">
+                            <div class="text-xs text-gray-500 mb-1">Produits</div>
+                            <div class="text-lg font-semibold text-gray-800">${cargaison.nbProduits()}/10</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border">
+                            <div class="text-xs text-gray-500 mb-1">Coût total</div>
+                            <div class="text-lg font-semibold text-accent">${cargaison.sommeTotale().toFixed(2)} F</div>
+                        </div>
+                    </div>
+                    
+                    ${cargaison.produits.length > 0 ? `
+                        <div class="border-t pt-3">
+                            <div class="text-xs text-gray-500 mb-2">Produits dans cette cargaison:</div>
+                            <div class="space-y-1">
+                                ${cargaison.produits.map(produit => `
+                                    <div class="text-sm text-gray-700 bg-gray-50 rounded px-2 py-1">
+                                        ${produit.info()}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function setCargaisonActive(index) {
+            cargaisonActive = cargaisons[index];
+            updateCargoDisplay();
+            showMessage(`Cargaison ${cargaisonActive.type} sélectionnée`, 'info');
+        }
+
+        function showMessage(text, type) {
+            const messages = document.getElementById('messages');
+            const messageId = 'msg-' + Date.now();
+            
+            const colors = {
+                success: 'bg-green-100 border-green-400 text-green-700',
+                error: 'bg-red-100 border-red-400 text-red-700',
+                info: 'bg-blue-100 border-blue-400 text-blue-700'
+            };
+            
+           
+            
+            const messageEl = document.createElement('div');
+            messageEl.id = messageId;
+            messageEl.className = `${colors[type]} border rounded-lg p-4 shadow-md transform transition-all duration-300 opacity-0 translate-y-2`;
+            messageEl.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span>${icons[type]}</span>
+                        <span class="font-medium">${text}</span>
+                    </div>
+                    <button onclick="removeMessage('${messageId}')" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            messages.appendChild(messageEl);
+            
+            // Animation d'apparition
+            setTimeout(() => {
+                messageEl.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+            
+            // Suppression automatique après 5 secondes
+            setTimeout(() => {
+                removeMessage(messageId);
+            }, 5000);
+        }
+
+        function removeMessage(messageId) {
+            const messageEl = document.getElementById(messageId);
+            if (messageEl) {
+                messageEl.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    messageEl.remove();
+                }, 300);
+            }
+        }
+
+        // Initialisation
+        updateCargoDisplay();
+    </script>
+</body>
+</html>
