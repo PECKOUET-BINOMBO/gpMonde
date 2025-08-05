@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES6", // target permet de spécifier la version ECMAScript à utiliser
+    "target": "ES6", // target permet de spécifier la version js à utiliser
     "module": "CommonJS", // module permet de spécifier le système de modules à utiliser
     "outDir": "./dist", // outDir spécifie le répertoire de sortie pour les fichiers compilés
     "rootDir": "./src", // rootDir spécifie le répertoire racine des fichiers sources
     "strict": true, // strict active toutes les vérifications strictes du compilateur
-    "esModuleInterop": true // esModuleInterop permet l'interopérabilité avec les modules ES
   },
 
     "include": [

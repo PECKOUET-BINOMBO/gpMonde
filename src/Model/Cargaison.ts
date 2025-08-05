@@ -1,25 +1,18 @@
-import { GenererMatricule } from "./GenererMatricule";
 import { Produit } from "./Produit";
 
 export abstract class Cargaison
 {
-    protected __matricule:number;
     protected __produits:Produit[] = [];
     protected __distance:number;
 
     protected static LIMITES_PRODUITS:number = 10;
 
-    constructor(matricule:number = GenererMatricule.genererMatricule(), distance:number = 0) {
-        this.__matricule = matricule;
+    constructor(distance:number = 0) {
         this.__distance = distance;
     }
 
     abstract calculerFrais(produit:Produit):number;
 
-    public getMatricule():number
-    {
-        return this.__matricule;
-    }
 
     public getProduits():Produit[]
     {
@@ -40,12 +33,12 @@ export abstract class Cargaison
     {
         if (this.__produits.length  >= Cargaison.LIMITES_PRODUITS)
         {
-            console.log(`Limite de produits atteinte pour la cargaison ${this.__matricule}. Impossible d'ajouter le produit ${produit.getLibelle()}.`);
+            console.log(`Limite de produits atteinte pour cette cargaison. Impossible d'ajouter le produit ${produit.getLibelle()}.`);
             return;
         }
 
         this.__produits.push(produit);
-        console.log(`Produit ${produit.getLibelle()} ajouté à la cargaison ${this.__matricule}.`);
+        console.log(`Produit ${produit.getLibelle()} ajouté à la cargaison.`);
     }
 
     public sommeTotale():number

@@ -23,8 +23,13 @@ cargaisonMaritime.ajouterProduit(acide);
 cargaisonRoutiere.ajouterProduit(verre);
 cargaisonRoutiere.ajouterProduit(fer);
 
-// Affichage des résultats
-console.log("=== Liste Cargaisons ===");
-console.log(`Aérienne - Total: ${cargaisonAerienne.sommeTotale()} F, Produits: ${cargaisonAerienne.nbProduit()}`);
-console.log(`Maritime - Total: ${cargaisonMaritime.sommeTotale()} F, Produits: ${cargaisonMaritime.nbProduit()}`);
-console.log(`Routière - Total: ${cargaisonRoutiere.sommeTotale()} F, Produits: ${cargaisonRoutiere.nbProduit()}`);
+
+// Affichage détaillé des cargaisons
+const cargaisons = [cargaisonAerienne, cargaisonMaritime, cargaisonRoutiere];
+cargaisons.forEach((c, i) => {
+    console.log(`\nCargaison #${i} (${c.constructor.name})`);
+    console.log(`Distance: ${c.getDistance()} km`);
+    console.log(`Produits: ${c.nbProduit()}`);
+    c.getProduits().forEach(p => console.log(" - " + p.info())); // Affiche le nom et les infos
+    console.log(`Total frais: ${c.sommeTotale()} F`);
+});

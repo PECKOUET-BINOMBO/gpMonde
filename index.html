@@ -41,41 +41,64 @@
 
     <div class="container mx-auto px-6 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Panneau de création de cargaison -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                        </svg>
-                        Nouvelle Cargaison
+            <!-- Panneau principal -->
+            <div class="lg:col-span-2">
+                <!-- Cargaisons -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-between">
+                        <span class="flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            Liste cargaisons 
+                        </span>
+                        <span id="cargoCount" class="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">0</span>
                     </h2>
                     
-                    <form id="cargoForm" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de cargaison</label>
-                            <select id="cargoType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                <option value="">Sélectionner un type</option>
-                                <option value="maritime">Maritime</option>
-                                <option value="aerienne">Aérienne</option>
-                                <option value="routiere">Routière</option>
-                            </select>
+                    <div id="cargoList" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                            </svg>
+                            <p class="text-lg font-medium">Aucune cargaison créée</p>
+                            <p class="text-sm">Créez votre première cargaison pour commencer</p>
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Distance (km)</label>
-                            <input type="number" id="distance" placeholder="Distance en kilomètres" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                        </div>
-                        
-                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-md hover:shadow-lg">
-                            Créer la cargaison
-                        </button>
-                    </form>
+                    </div>
                 </div>
 
-                <!-- Panneau d'ajout de produit -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mt-6">
+                <!-- Produits -->
+                  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-between">
+                        <span class="flex items-center">
+                          
+                            <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                            Liste des produits 
+                        </span>
+                        <span id="cargoCount" class="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">0</span>
+                    </h2>
+                    
+                    <div id="cargoList" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                            <p class="text-lg font-medium">Aucun produit ajouté</p>
+                            <p class="text-sm">Ajouter votre premier produit pour commencer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages et notifications -->
+                <div id="messages" class="space-y-3">
+                </div>
+            </div>
+            
+            <div class="lg:col-span-1">
+
+                 <!-- Panneau d'ajout de produit -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
                     <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                         <svg class="w-6 h-6 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -118,36 +141,47 @@
                         </button>
                     </form>
                 </div>
-            </div>
-
-            <!-- Panneau principal -->
-            <div class="lg:col-span-2">
-                <!-- Cargaisons actives -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center justify-between">
-                        <span class="flex items-center">
-                            <svg class="w-6 h-6 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
-                            Cargaisons Actives
-                        </span>
-                        <span id="cargoCount" class="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">0</span>
+                <!-- Panneau de création de cargaison -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Nouvelle Cargaison
                     </h2>
                     
-                    <div id="cargoList" class="space-y-4">
-                        <div class="text-center py-12 text-gray-500">
-                            <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                            </svg>
-                            <p class="text-lg font-medium">Aucune cargaison créée</p>
-                            <p class="text-sm">Créez votre première cargaison pour commencer</p>
+                    <form id="cargoForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de cargaison</label>
+                            <select id="cargoType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                <option value="">Sélectionner un type</option>
+                                <option value="maritime">Maritime</option>
+                                <option value="aerienne">Aérienne</option>
+                                <option value="routiere">Routière</option>
+                            </select>
                         </div>
-                    </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Distance (km)</label>
+                            <input type="number" id="distance" placeholder="Distance en kilomètres" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Produits</label>
+                            <select id="productList" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                <option value="">Sélectionner un produit</option>
+                                <!-- Les produits seront ajoutés dynamiquement -->
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-md hover:shadow-lg">
+                            Créer la cargaison
+                        </button>
+                    </form>
                 </div>
 
-                <!-- Messages et notifications -->
-                <div id="messages" class="space-y-3">
-                </div>
+               
             </div>
         </div>
     </div>
